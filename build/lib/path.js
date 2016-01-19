@@ -89,7 +89,7 @@ var Path = {
   injectParams: function injectParams(pattern, params) {
     params = params || {};
 
-    return pattern.replace(paramInjectMatcher, function (match, param) {
+    var path = pattern.replace(paramInjectMatcher, function (match, param) {
       var paramName = param.replace(specialParamChars, '');
 
       // If param is optional don't check for existence
@@ -103,6 +103,14 @@ var Path = {
 
       return params[paramName];
     });
+    
+    path = path.replace(/\/+$/,'');
+
+    if(path == '') {
+      return '/';
+    }
+
+    return path;
   },
 
   /**
